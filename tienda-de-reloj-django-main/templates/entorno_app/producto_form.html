@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
-{% block title %}{% if object %}Editar Reloj{% else %}Nuevo Reloj{% endif %}{% endblock %}
+{% block title %}{{ view.object|default:"Nuevo" }} - Reloj{% endblock %}
 {% block content %}
-<h1 class="mb-4">{% if object %}Editar Reloj{% else %}Crear Reloj{% endif %}</h1>
-<form method="post" class="row g-3">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="col-12">
-        <button type="submit" class="btn btn-primary">Guardar</button>
-        <a href="{% url 'producto-list' %}" class="btn btn-secondary ms-2">Cancelar</a>
-    </div>
+<h2 class="mb-4">{% if view.object %}Editar{% else %}Nuevo{% endif %} Reloj</h2>
+<form method="post" class="needs-validation" novalidate>
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a href="{% url 'producto-list' %}" class="btn btn-secondary ms-2">Cancelar</a>
 </form>
 {% endblock %}

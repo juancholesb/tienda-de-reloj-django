@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Finalizar Compra — Tienda de Relojes{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container">
+        <h1 class="page-title">📦 Finalizar Compra</h1>
+
+        <div class="row g-4">
+            <!-- FORMULARIO -->
+            <div class="col-lg-7">
+                <div class="checkout-card">
+                    <h4 class="checkout-subtitle">Datos de envío</h4>
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="nombre" class="form-label-custom">Nombre *</label>
+                                <input type="text" name="nombre" id="nombre" class="form-control custom-input" required placeholder="Tu nombre">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="apellido" class="form-label-custom">Apellido *</label>
+                                <input type="text" name="apellido" id="apellido" class="form-control custom-input" required placeholder="Tu apellido">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email" class="form-label-custom">Email *</label>
+                                <input type="email" name="email" id="email" class="form-control custom-input" required placeholder="correo@ejemplo.com">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="telefono" class="form-label-custom">Teléfono</label>
+                                <input type="text" name="telefono" id="telefono" class="form-control custom-input" placeholder="+57 300 123 4567">
+                            </div>
+                            <div class="col-12">
+                                <label for="direccion" class="form-label-custom">Dirección de envío *</label>
+                                <textarea name="direccion" id="direccion" rows="3" class="form-control custom-input" required placeholder="Calle, número, barrio, ciudad..."></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-accent btn-lg mt-4 w-100">
+                            ✅ Confirmar Compra
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RESUMEN -->
+            <div class="col-lg-5">
+                <div class="checkout-card">
+                    <h4 class="checkout-subtitle">Resumen del pedido</h4>
+                    {% for item in items %}
+                    <div class="checkout-item">
+                        <span>{{ item.nombre }} (x{{ item.cantidad }})</span>
+                        <span>${{ item.subtotal|floatformat:0 }} COP</span>
+                    </div>
+                    {% endfor %}
+                    <div class="checkout-total">
+                        <span>Total a pagar:</span>
+                        <span class="checkout-total-price">${{ total|floatformat:0 }} COP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

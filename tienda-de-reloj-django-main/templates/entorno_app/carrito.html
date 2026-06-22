@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Carrito — Tienda de Relojes{% endblock %}
+
+{% block content %}
+<section class="page-section">
+    <div class="container">
+        <h1 class="page-title">🛒 Tu Carrito</h1>
+
+        {% if not items %}
+            <div class="empty-state">
+                <div class="empty-icon">🛒</div>
+                <h3>Tu carrito está vacío</h3>
+                <p class="text-muted">Agrega productos desde nuestro catálogo</p>
+                <a href="{% url 'producto-list' %}" class="btn btn-accent mt-3">Ver Productos</a>
+            </div>
+        {% else %}
+            <div class="cart-container">
+                {% for item in items %}
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <h5 class="cart-item-name">{{ item.nombre }}</h5>
+                        <p class="cart-item-price">${{ item.precio|floatformat:0 }} COP x {{ item.cantidad }}</p>
+                    </div>
+                    <div class="cart-item-actions">
+                        <span class="cart-item-subtotal">${{ item.subtotal|floatformat:0 }} COP</span>
+                        <a href="{% url 'eliminar-carrito' item.id %}" class="btn btn-remove">✕</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span class="cart-total-price">${{ total|floatformat:0 }} COP</span>
+                </div>
+
+                <div class="cart-actions">
+                    <a href="{% url 'producto-list' %}" class="btn btn-secondary-custom">← Seguir comprando</a>
+                    <a href="{% url 'checkout' %}" class="btn btn-accent">Comprar ahora →</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
