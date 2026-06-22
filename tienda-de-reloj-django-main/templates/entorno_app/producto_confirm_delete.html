@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar Reloj{% endblock %}
+{% block content %}
+<h1 class="mb-4">Eliminar Reloj</h1>
+<div class="alert alert-danger">
+    ¿Está seguro de que desea eliminar <strong>{{ object }}</strong>? Esta acción no se puede deshacer.
+</div>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a href="{% url 'producto-list' %}" class="btn btn-secondary ms-2">Cancelar</a>
+</form>
+{% endblock %}

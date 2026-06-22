@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Productos – Tienda de Relojes{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+    <h1 class="display-4 text-center mb-4">Productos</h1>
+
+    <!-- Mensaje cuando no hay productos -->
+    {% if not object_list %}
+        <div class="alert alert-warning text-center" role="alert">
+            No hay productos aún. ¡Sé el primero en agregar alguno!
+        </div>
+    {% else %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for reloj in object_list %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+
+                        <!-- Imagen del reloj (si la URL está presente) -->
+                        {% if reloj.imagen_url %}
+                            <img src="{{ reloj.imagen_url }}" class="card-img-top" alt="{{ reloj.modelo }}">
+                        {% else %}
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="180"
+                                 xmlns="http://www.w3.org/2000/svg" role="img"
+                                 aria-label="Placeholder: Imagen"
+                                 preserveAspectRatio="xMidYMid slice" focusable="false">
+                                <title>Sin imagen</title>
+                                <rect width="100%" height="100%" fill="#868e96"></rect>
+                                <text x="50%" y="50%" fill="#dee2e6" dy=".3em" text-anchor="middle">
+                                    Sin imagen
+                                </text>
+                            </svg>
+                        {% endif %}
+
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ reloj.marca }} {{ reloj.modelo }}</h5>
+                            <p class="card-text mb-1"><strong>Precio:</strong> {{ reloj.precio|floatformat:2 }} COP</p>
+                            <p class="card-text mb-1"><strong>Stock:</strong> {{ reloj.stock }}</p>
+                            <p class="card-text mb-1"><strong>Género:</strong> {{ reloj.get_genero_display }}</p>
+                            <p class="card-text flex-grow-1"><strong>Descripción:</strong> {{ reloj.descripcion|default:"Sin descripción" }}</p>
+
+                            <a href="#" class="btn btn-outline-primary mt-3 disabled">Agregar al carrito</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{% url 'producto-create' %}" class="btn btn-success btn-lg">
+            <i class="bi bi-plus-circle"></i> Nuevo Producto
+        </a>
+    </div>
+</div>
+{% endblock %}
